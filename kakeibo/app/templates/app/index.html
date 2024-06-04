@@ -1,0 +1,35 @@
+<head>
+    <meta charset="utf-8" />
+    <title>LearnCloud</title>
+</head>
+<body>
+    <h1>LearnCloudへようこそ!</h1>
+    <img src="data:image/png;base64,{{wordcloud_image}}"/>
+    <h2>学びたいことを投稿しよう！</h2>
+    <form method="POST">
+        {% csrf_token %}  {{ form.as_p }}
+        <button type="submit">投稿する！</button>
+    </form>
+    
+    <h2>投稿一覧</h2>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>学びたいこと</th>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+        <tr>
+            <td>{{ post.id }}</td>
+            <td>{{ post.skill_name }}</td>
+            <td>
+                <form action="{% url 'delete' post.pk %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">削除</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
